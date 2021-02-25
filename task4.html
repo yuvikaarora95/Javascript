@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Task 4</title>
+	<style>
+		div#test {border: #000 1px solid; padding:10px 40px 40px 40px;}
+	</style>
+</head>
+<body>
+	<h2 id="status"></h2>
+	<div id="test"></div>
+	Time: <p id="time">20</p>
+
+	<script>
+		var t =20;
+		function timer() {
+			t = t - 1;
+			
+			if(t < 20) {
+				time.innerHTML = t;
+			}
+			if(t < 1) {
+				window.clearInterval(update);
+				
+				test.innerHTML = "<h2> You got " + correct + " of " + questions.length + "questions correnct</h2>";
+				alert('Time is Up');
+			}
+		}
+		update = setInterval("timer()", 1000);
+
+		var pos = 0, test, status, question, choice, choices, cha, chb, chc, correct = 0;
+		var questions = [
+			["What is 10 + 4?", "12", "14", "16", "B"],
+			["What is the capital of Canada?", "Toronto", "Ontario", "Ottawa", "C"],
+			["What is the last name of the actress Harry _____?", "Potter", "Watson", "Weasly", "A"],
+			["When is Christmas celebrated?", "1st October", "25th December", "15th August", "B"],
+			["What is 45 - 3?", "41", "40", "42", "C"],
+			["I am _______ introvert.", "an", "a", "the", "A"],
+			["What is 7 x 3?", "21", "27", "35", "A"],
+			["What is 5 times 10?", "100", "50", "10", "B"],
+			["She is the daughter of my gradfather's son. Who is she?", "Grad-daughter", "Wife", "Me", "C"],
+			["What is 8 / 2?", "10", "2", "4", "C"]
+
+		];
+
+		function _(x){
+			return document.getElementById(x);
+		}
+		function renderQuestion(){
+
+			test = _("test");
+
+			if(pos >= questions.length){
+				test.innerHTML = "<h2> You got " + correct + " of " + questions.length + "questions correnct</h2>";
+				alert('Test Completed!');
+			}
+			// t = 20;
+			_("status").innerHTML = "Question "+(pos + 1)+ " of "+ questions.length;
+			question = questions[pos][0];
+			cha = questions[pos][1];
+			chb = questions[pos][2];
+			chc = questions[pos][3];
+
+			test.innerHTML = "<h3>" + question + "</h3>"; 
+			test.innerHTML += "<input type = 'radio' name = 'choices' value = 'A' > "+cha+"<br>";
+			test.innerHTML += "<input type = 'radio' name = 'choices' value = 'B' > "+chb+"<br>";
+			test.innerHTML += "<input type = 'radio' name = 'choices' value = 'C' > "+chc+"<br>";
+			test.innerHTML += "<button onclick='checkAnswer()'>Submit</button>";
+			test.innerHTML += "<button onclick='back()'>Back</button>";
+		}
+		function checkAnswer() {
+			//alert('ok');
+			choices = document.getElementsByName("choices");
+			for(var i=0; i<choices.length; i++){
+				if(choices[i].checked){
+					choice = choices[i].value;
+				}
+			}
+			if(choice == questions[pos][4]) {
+				correct++;
+			} 
+			pos++;
+			renderQuestion();
+		}
+		function back() {
+			choices = document.getElementsByName("choices");
+			for(var i=0; i<choices.length; i++){
+				if(choices[i].checked){
+					choice = choices[i].value;
+				}
+			}
+			if(choice == questions[pos][4]) {
+				correct--;
+			} 
+			if(pos>0){
+				pos--;
+			} else {
+				pos;
+			}
+			renderQuestion();
+		}
+		window.addEventListener("load", renderQuestion);
+	</script>
+</body>
+</html>
